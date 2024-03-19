@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"fremont/config"
+	postgresqlpkg "fremont/pkg/database/postgresql"
 	"log"
 	"os"
 
@@ -25,6 +26,7 @@ func main() {
 func SetupRouter() *echo.Echo {
 	// setup database connection
 	log.Println("Database Connection")
+	_ = postgresqlpkg.InitPostgreSQL()
 
 	// setup echo
 	e := echo.New()
