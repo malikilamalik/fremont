@@ -3,7 +3,8 @@ package main
 import (
 	"fmt"
 	"fremont/config"
-	postgresqlpkg "fremont/pkg/database/postgresql"
+	modulesV1 "fremont/internal/delivery/v1/http/modules"
+
 	"log"
 	"os"
 
@@ -26,7 +27,6 @@ func main() {
 func SetupRouter() *echo.Echo {
 	// setup database connection
 	log.Println("Database Connection")
-	_ = postgresqlpkg.InitPostgreSQL()
 
 	// setup echo
 	e := echo.New()
@@ -40,7 +40,7 @@ func SetupRouter() *echo.Echo {
 		ExposeHeaders:    []string{"Content-Length"},
 	}))
 	//init router
+	modulesV1.Init(e)
 
-	fmt.Println(e)
 	return e
 }

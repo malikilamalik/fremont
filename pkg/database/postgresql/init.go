@@ -17,7 +17,6 @@ func InitPostgreSQL() *sqlx.DB {
 		Password: os.Getenv("SQL_PASSWORD"),
 		Database: os.Getenv("SQL_DATABASE"),
 	}
-
 	db, err := sqlx.Connect("postgres", config.FormatDSN())
 	if err != nil {
 		log.Fatalln(err)
