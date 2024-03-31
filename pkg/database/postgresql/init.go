@@ -13,7 +13,7 @@ func InitPostgreSQL() *sqlx.DB {
 	config := config.PostgreSQLConfig{
 		Host:     os.Getenv("SQL_HOST"),
 		Sslmode:  os.Getenv("SQL_SSL_MODE"),
-		User:     os.Getenv("SQL_USER"),
+		User:     os.Getenv("SQL_USERNAME"),
 		Password: os.Getenv("SQL_PASSWORD"),
 		Database: os.Getenv("SQL_DATABASE"),
 	}

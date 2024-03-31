@@ -10,7 +10,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (h userHandler) Login(c echo.Context) error {
+func (h userHandler) Register(c echo.Context) error {
 	db := postgresqlpkg.InitPostgreSQL()
 	repository := usersql.NewUserRepository(db)
 	a, _ := repository.Get(context.Background(), common.QueryParameter{})

@@ -11,5 +11,5 @@ func Init(g *echo.Group) {
 		h = userhandler.New()
 	)
 	publicRoute := g.Group("/users")
-	publicRoute.GET("", h.Login)
+	publicRoute.GET("", h.Register)
 }
