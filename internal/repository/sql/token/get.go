@@ -2,7 +2,7 @@ package tokensql
 
 import (
 	"context"
-	"fremont/internal/repository/model"
+	model "fremont/internal/entity"
 )
 
 func (tokenRepository) Get(ctx context.Context) (*model.Token, error) {

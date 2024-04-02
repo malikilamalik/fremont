@@ -3,7 +3,7 @@ package tokensql
 import (
 	"context"
 	"database/sql"
-	"fremont/internal/repository/model"
+	model "fremont/internal/entity"
 )
 
 type tokenRepository struct {

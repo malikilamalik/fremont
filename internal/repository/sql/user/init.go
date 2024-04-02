@@ -2,7 +2,8 @@ package usersql
 
 import (
 	"context"
-	"fremont/internal/repository/model"
+
+	model "fremont/internal/entity"
 	"fremont/pkg/common"
 
 	"github.com/jmoiron/sqlx"

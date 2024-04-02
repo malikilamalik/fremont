@@ -2,7 +2,7 @@ package usersql
 
 import (
 	"context"
-	"fremont/internal/repository/model"
+	model "fremont/internal/entity"
 )
 
 func (userRepository) Create(ctx context.Context, data model.User) error {
