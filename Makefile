@@ -1,2 +1,2 @@
-run-web:
-	go run cmd/web_server/main.go
+run:
+	go run cmd/main.go

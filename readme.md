@@ -6,7 +6,7 @@ runme:
 
 # Roadmap
 
-[x] API Framework : Echo
+[x] API Framework : Gin
 
 [ ] Layers : Controller->Service->Repository->Entity
 
