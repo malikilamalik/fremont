@@ -13,5 +13,5 @@ func ServerEnvirontment() string {
 	if os.Getenv("APP_ENV") == "" {
 		return "local"
 	}
-	return ":" + os.Getenv("APP_ENV")
+	return os.Getenv("APP_ENV")
 }

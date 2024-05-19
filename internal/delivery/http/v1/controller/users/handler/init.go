@@ -1,0 +1,3 @@
+package usersHandler
+
+func Init() {}
