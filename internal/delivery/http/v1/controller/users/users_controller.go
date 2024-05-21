@@ -2,10 +2,11 @@ package usersController
 
 import (
 	"github.com/go-playground/validator/v10"
+	"github.com/jmoiron/sqlx"
 	"github.com/labstack/echo/v4"
 )
 
-func Init(group *echo.Group, val *validator.Validate) {
+func Init(group *echo.Group, db *sqlx.DB, val *validator.Validate) {
 	user := group.Group("/user")
 
 	//Private

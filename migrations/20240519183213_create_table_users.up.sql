@@ -1,5 +1,6 @@
 CREATE TABLE users (
-  id VARCHAR (26) PRIMARY KEY,
+  id VARCHAR (36) PRIMARY KEY,
+  email VARCHAR (20) UNIQUE NOT NULL,
   name VARCHAR (50) NOT NULL,
   password VARCHAR (64) NULL,
   created_at timestamptz NOT NULL,

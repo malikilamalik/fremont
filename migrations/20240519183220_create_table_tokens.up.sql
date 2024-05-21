@@ -1,6 +1,6 @@
 CREATE TABLE tokens (
-  id VARCHAR (26) PRIMARY KEY,
-  user_id VARCHAR (26) PRIMARY KEY,
+  id VARCHAR (36) PRIMARY KEY,
+  user_id VARCHAR (36) PRIMARY KEY,
   token VARCHAR (64) NULL,
   expired_at timestamptz NOT NULL
 );

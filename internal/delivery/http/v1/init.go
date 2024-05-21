@@ -9,5 +9,5 @@ import (
 
 func Init(app *echo.Echo, db *sqlx.DB, val *validator.Validate) {
 	v1 := app.Group("/v1")
-	usersController.Init(v1, val)
+	usersController.Init(v1, db, val)
 }
