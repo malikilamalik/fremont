@@ -1,3 +1,0 @@
-package usersHandler
-
-func Init() {}

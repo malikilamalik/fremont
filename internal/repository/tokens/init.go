@@ -1,3 +1,0 @@
-package tokens
-
-func New() {}

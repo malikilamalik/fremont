@@ -1,27 +1,63 @@
-include .env
+# Simple Makefile for a Go project
 
-run:
-	go run cmd/web/main.go
+# Build the application
+all: build
 
 build:
-	GOOS=linux GOARCH=amd64 go build -o fremont cmd/web/main.go
+	@echo "Building..."
+	
+	@go build -o main cmd/api/main.go
 
-build-image:
-	docker build -f ./deploy/Dockerfile -t malikilamalik/fremont . --no-cache
+# Run the application
+run:
+	@go run cmd/api/main.go
 
-run-image:
-	docker run -e POSTGRE_DB_NAME=$(POSTGRE_DB_NAME)  -e POSTGRE_DB_PORT=$(POSTGRE_DB_PORT) -e POSTGRE_DB_HOST=$(POSTGRE_DB_HOST) \
-	-e POSTGRE_DB_USERNAME=$(POSTGRE_DB_USERNAME) \
-	-e POSTGRE_DB_PASSWORD=$(POSTGRE_DB_PASSWORD) \
-	-e POSTGRE_DB_PARAMS=$(POSTGRE_DB_PARAMS) \
-	--network fremont_default \
-	-p 8080:8080 malikilamalik/fremont:latest
+# Create DB container
+docker-run:
+	@if docker compose up 2>/dev/null; then \
+		: ; \
+	else \
+		echo "Falling back to Docker Compose V1"; \
+		docker-compose up; \
+	fi
 
-migrate-dev:
-	migrate -database "postgres://$(POSTGRE_DB_USERNAME):$(POSTGRE_DB_PASSWORD)@$(POSTGRE_DB_HOST):$(POSTGRE_DB_PORT)/$(POSTGRE_DB_NAME)?sslmode=disable" -path migrations -verbose up
+# Shutdown DB container
+docker-down:
+	@if docker compose down 2>/dev/null; then \
+		: ; \
+	else \
+		echo "Falling back to Docker Compose V1"; \
+		docker-compose down; \
+	fi
 
-rollback-dev:
-	migrate -database "postgres://$(POSTGRE_DB_USERNAME):$(POSTGRE_DB_PASSWORD)@$(POSTGRE_DB_HOST):$(POSTGRE_DB_PORT)/$(POSTGRE_DB_NAME)?sslmode=disable" -path migrations -verbose down
+# Test the application
+test:
+	@echo "Testing..."
+	@go test ./tests -v
 
-drop-dev:
-	migrate -database "postgres://$(POSTGRE_DB_USERNAME):$(POSTGRE_DB_PASSWORD)@$(POSTGRE_DB_HOST):$(POSTGRE_DB_PORT)/$(POSTGRE_DB_NAME)?sslmode=disable" -path migrations -verbose drop
+# Clean the binary
+clean:
+	@echo "Cleaning..."
+	@rm -f main
+
+# Live Reload
+watch:
+	@if command -v air > /dev/null; then \
+	    air; \
+	    echo "Watching...";\
+	else \
+	    read -p "Go's 'air' is not installed on your machine. Do you want to install it? [Y/n] " choice; \
+	    if [ "$$choice" != "n" ] && [ "$$choice" != "N" ]; then \
+	        go install github.com/cosmtrek/air@latest; \
+	        air; \
+	        echo "Watching...";\
+	    else \
+	        echo "You chose not to install air. Exiting..."; \
+	        exit 1; \
+	    fi; \
+	fi
+
+#Migration:
+
+
+.PHONY: all build run test clean

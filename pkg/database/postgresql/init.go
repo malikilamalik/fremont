@@ -2,22 +2,13 @@ package postgresql
 
 import (
 	"log"
-	"os"
 
-	_ "github.com/jackc/pgx/v4"
+	_ "github.com/jackc/pgx/v4/stdlib"
 	"github.com/jmoiron/sqlx"
-	"github.com/malikilamalik/freemont/config"
+	"github.com/malikilamalik/fremont/config"
 )
 
-func New() *sqlx.DB {
-	config := config.PostgreSQLConfig{
-		Host:     os.Getenv("POSTGRE_DB_HOST"),
-		Param:    os.Getenv("POSTGRE_DB_PARAMS"),
-		User:     os.Getenv("POSTGRE_DB_USERNAME"),
-		Password: os.Getenv("POSTGRE_DB_PASSWORD"),
-		Port:     os.Getenv("POSTGRE_DB_PORT"),
-		Database: os.Getenv("POSTGRE_DB_NAME"),
-	}
+func New(config config.PostgreSQLConfig) *sqlx.DB {
 	dsn := config.FormatDSN()
 	db, err := sqlx.Open("pgx", dsn)
 
@@ -29,6 +20,9 @@ func New() *sqlx.DB {
 		log.Fatalln(err)
 		return nil
 	}
+
+	db.SetMaxOpenConns(70)
+	db.SetMaxIdleConns(20)
 
 	return db
 }

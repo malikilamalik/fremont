@@ -1,3 +1,6 @@
-# 🐧 Fremont
+//Create migration
 
-Fremont is a production preconfigured golang boilerplate, easy and ready to use.
+migrate create -ext sql -dir migrations create_table_users
+
+//Migrate table
+migrate -database "postgres://user:password@host:port/database_name?sslmode=disable" -path migrations up

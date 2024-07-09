@@ -4,33 +4,45 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/jmoiron/sqlx"
 	"github.com/labstack/echo/v4"
-	"github.com/malikilamalik/freemont/config"
-	v1 "github.com/malikilamalik/freemont/internal/delivery/http/v1"
-	"github.com/malikilamalik/freemont/pkg/database/postgresql"
+	"github.com/labstack/echo/v4/middleware"
+	"github.com/malikilamalik/fremont/pkg/database/postgresql"
+	"go.uber.org/zap"
 )
 
 type Server struct {
-	app       *echo.Echo
 	db        *sqlx.DB
+	app       *echo.Echo
 	validator *validator.Validate
 }
 
 func NewServer() *Server {
 	e := echo.New()
-	db := postgresql.New()
 	validate := validator.New()
+	db := postgresql.New()
 
 	return &Server{
-		app:       e,
 		db:        db,
+		app:       e,
 		validator: validate,
 	}
 }
 
 func (s *Server) Run() error {
+	//Setup Middleware
+	//Logger Middleware
+	logger, _ := zap.NewProduction()
+	s.app.Use(middleware.RequestLoggerWithConfig(middleware.RequestLoggerConfig{
+		LogURI:    true,
+		LogStatus: true,
+		LogValuesFunc: func(c echo.Context, v middleware.RequestLoggerValues) error {
+			logger.Info("request",
+				zap.String("URI", v.URI),
+				zap.Int("status", v.Status),
+			)
 
-	//Init Router for v1
-	v1.Init(s.app, s.db, s.validator)
+			return nil
+		},
+	}))
 
-	return s.app.Start(config.ServerPort())
+	return s.app.Start(":8080")
 }
