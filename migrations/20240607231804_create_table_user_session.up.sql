@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS sessions (
-    id BIGINT PRIMARY KEY,
+    id VARCHAR(36) PRIMARY KEY,
     token TEXT,
-    expires_at BIGINT,
+    created_at TIMESTAMPTZ,
     ip_address TEXT,
     user_agent TEXT,
     user_id BIGINT,

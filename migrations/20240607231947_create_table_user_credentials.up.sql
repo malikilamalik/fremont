@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS credentials (
-    id BIGINT PRIMARY KEY,
+    id VARCHAR(36) PRIMARY KEY,
     active BOOLEAN,
     hash TEXT,
     created_at TIMESTAMPTZ,
